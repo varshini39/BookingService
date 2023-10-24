@@ -52,6 +52,13 @@
             <artifactId>jaxb-api</artifactId>
             <version>2.3.0</version>
         </dependency>
+        <!-- Added it to local maven repository -->
+        <dependency>
+            <groupId>com.app.project</groupId>
+            <artifactId>entity-service</artifactId>
+            <version>1.0.0</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

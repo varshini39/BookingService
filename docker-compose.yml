@@ -1,6 +1,11 @@
 version: "3"
 
 # Execute the file from outside the repositories from the common folder of all three services
+# Prerequisites:
+# docker system prune
+# docker system prune --volumes
+# docker network create app-mysql -> creating common network
+
 services:
 
   mysqldb-docker:

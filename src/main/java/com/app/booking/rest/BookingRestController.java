@@ -1,8 +1,8 @@
 package com.app.booking.rest;
 
-import com.app.booking.entity.Booking;
 import com.app.booking.exception.IdNotFoundException;
 import com.app.booking.service.BookingService;
+import com.app.project.entity.Booking;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

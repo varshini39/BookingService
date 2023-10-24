@@ -1,6 +1,6 @@
 package com.app.booking.service;
 
-import com.app.booking.entity.Booking;
+import com.app.project.entity.Booking;
 
 import java.util.List;
 
