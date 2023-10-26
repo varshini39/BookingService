@@ -5,6 +5,8 @@ import com.app.booking.repository.BookingRepository;
 import com.app.project.entity.Booking;
 import com.app.project.entity.Flight;
 import com.app.project.entity.User;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -16,6 +18,7 @@ import java.util.Optional;
 @Service
 public class BookingServiceImpl implements BookingService {
 	
+	Logger logger = LoggerFactory.getLogger(BookingServiceImpl.class);
 	private BookingRepository bookingRepository;
 	@Autowired
 	private RestTemplate restTemplate;
@@ -31,7 +34,12 @@ public class BookingServiceImpl implements BookingService {
 	
 	@Override
 	public List<Booking> findAll() {
-		return bookingRepository.findAll();
+		List<Booking> bookingList = bookingRepository.findAll();
+		for(Booking booking : bookingList) {
+			booking.setUser(getUserDetails(booking.getUserId()));
+			booking.setFlight(getFlightDetails(booking.getFlightId()));
+		}
+		return bookingList;
 	}
 	
 	@Override
@@ -51,7 +59,10 @@ public class BookingServiceImpl implements BookingService {
 	
 	@Override
 	public Booking save(Booking booking) {
-		return bookingRepository.save(booking);
+		Booking savedBooking =  bookingRepository.save(booking);
+		savedBooking.setUser(getUserDetails(booking.getUserId()));
+		savedBooking.setFlight(getFlightDetails(booking.getFlightId()));
+		return savedBooking;
 	}
 	
 	@Override
