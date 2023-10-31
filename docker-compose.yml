@@ -1,11 +1,5 @@
 version: "3"
 
-# Execute the file from outside the repositories from the common folder of all three services
-# Prerequisites:
-# docker system prune
-# docker system prune --volumes
-# docker network create app-mysql -> creating common network
-
 services:
 
   mysqldb-docker:
@@ -16,13 +10,16 @@ services:
     environment:
       - MYSQL_ROOT_PASSWORD=root
       - MYSQL_DATABASE=flight_booking
+      - MYSQL_TCP_PORT=3307
+    expose:
+      - "3307"
     ports:
       - "3307:3306"
     volumes:
       - ./db:/var/lib/mysql
 
   user-service:
-    image: user-service
+    image: user-service:1.0
     build:
       context: ./UserService
     container_name: user-service
@@ -33,7 +30,8 @@ services:
     depends_on:
       - mysqldb-docker
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/flight_booking?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_DB_HOST=mysqldb-docker
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/flight_booking?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
 
@@ -49,7 +47,7 @@ services:
     depends_on:
       - mysqldb-docker
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/flight_booking?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/flight_booking?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
 
@@ -65,7 +63,7 @@ services:
     depends_on:
       - mysqldb-docker
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3306/flight_booking?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysqldb:3307/flight_booking?createDatabaseIfNotExist=true
       - SPRING_DATASOURCE_USERNAME=root
       - SPRING_DATASOURCE_PASSWORD=root
 
