@@ -7,5 +7,7 @@ WORKDIR /app/booking-service
 # Copy the JAR file into the container
 COPY target/booking-service-1.jar booking-service.jar
 
+EXPOSE 8083
+
 # Command to run your application
 ENTRYPOINT ["java", "-jar", "booking-service.jar"]
